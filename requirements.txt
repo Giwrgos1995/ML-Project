@@ -1,0 +1,7 @@
+conda 
+pandas 
+numpy 
+scikit-learn 
+tensorflow 
+shap 
+matplotlib 
