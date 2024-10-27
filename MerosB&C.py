@@ -11,7 +11,7 @@ import shap
 data = pd.read_csv('preprocessed_weather_data.csv')
 
 # Define features and target variables
-# We are using several weather-related identifiers as input features (X) and the target (y) is the 'value' column.
+# Using several weather-related identifiers as input features (X) and the target (y) is the 'value' column.
 X = data[['identifier_P1H', 'identifier_P24H', 'identifier_P6H', 'identifier_PMSL', 
           'identifier_RH', 'identifier_T', 'identifier_TDP', 'identifier_UVI', 'identifier_WD', 
           'identifier_WS','identifier_pressureMeanSeaLevel','location_id_23.0','location_id_27.0','location_id_30.0','location_id_116.0','location_id_152.0']].values
@@ -47,7 +47,7 @@ model.compile(optimizer=optimizer, loss=cost_function)
 model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 
 # Evaluate the model on the test data and print the loss
-# The loss is calculated using the selected cost function (e.g., MSE or MAE).
+# The loss is calculated using the selected cost function
 loss = model.evaluate(X_test, y_test)
 
 # Store and display the model evaluation results
@@ -64,14 +64,12 @@ for key, value in evaluation_results.items():
     print(f"{key}: {value}")
 
 # Make predictions using the trained model
-# The predictions are for the test data (X_test).
 predictions = model.predict(X_test)
 
 # Display the predictions
 print("\nPredictions:\n", predictions)
 
-# Create a SHAP explainer for interpretability
-# SHAP is used to explain the output of the model by showing feature importance.
+# SHAP is used to explain the output of the model
 explainer = shap.Explainer(model, X_train)
 
 # Calculate SHAP values for the test data
@@ -79,6 +77,7 @@ shap_values = explainer(X_test)
 
 # Display names
 new_feature_names = ['P1H', 'P24H', 'P6H', 'PMSL', 'RH', 'T', 'TDP', 'UVI', 'WD', 'WS','location_id_23.0','location_id_27.0','location_id_30.0','location_id_116.0','location_id_152.0']
+
 # Update the feature names in the SHAP values object
 shap_values.feature_names = new_feature_names
 

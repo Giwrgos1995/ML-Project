@@ -9,25 +9,25 @@ numeric_cols = ['value']
 stats = data[numeric_cols].describe()
 print("Statistics of Numeric Columns:\n", stats)
 
-# 2. Categorical data
+# Categorical data
 categorical_cols = ['identifier','value_type_id','location_id','source_id']
 for col in categorical_cols:
     print(f"Frequency of {col}:\n", data[col].value_counts())
 
-# 3. Encode categorical data
+# Encode categorical data
 encoder = OneHotEncoder(sparse_output=False)  # Use sparse_output
 encoded_categorical = encoder.fit_transform(data[categorical_cols])
 encoded_df = pd.DataFrame(encoded_categorical, columns=encoder.get_feature_names_out(categorical_cols))
 
-# 4. Convert to Unix Time Stamp
+# Convert to Unix Time Stamp
 data['timestamp'] = pd.to_datetime(data['timestamp'])
 data['timestamp'] = data['timestamp'].astype('int64') // 10**9  
 
-# 5. Scale
+# Scale
 scaler = MinMaxScaler()
 data[numeric_cols] = scaler.fit_transform(data[numeric_cols])
 
-# 6. Drop unnecessary columns
+# Drop unnecessary columns
 data = data.drop(columns=['id','identifier','value_type_id','location_id','source_id'])
 
 # Concatenate with encoded data
